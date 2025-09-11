@@ -1,0 +1,66 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog
+        id="dDocumentosFragment"
+        title="Documentos de acreedor">
+        <content>
+            <Table
+                id="tblDocumentos"
+                fixedLayout="false"
+                sticky="ColumnHeaders"
+                items="{Documentos>/}"
+                mode="MultiSelect"
+                >
+                <columns>
+                    <Column>
+                        <Text text="No. Documento" />
+                    </Column>
+                    <Column>
+                        <Text text="Clase" />
+                    </Column>
+                    <Column>
+                        <Text text="Fecha" />
+                    </Column>
+                    <Column>
+                        <Text text="Importe ML" />
+                    </Column>
+                    <Column>
+                        <Text text="Moneda ML" />
+                    </Column>
+                    <Column>
+                        <Text text="Importe MD" />
+                    </Column>
+                    <Column>
+                        <Text text="Moneda MD" />
+                    </Column>
+                    <Column>
+                        <Text text="Bloqueo Requisición" />
+                    </Column>
+                    <Column>
+                        <Text text="Referencia" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{Documentos>Belnr}" />
+                            <Text text="{Documentos>Blart}" />
+                            <Text text="{Documentos>Bldat}" />
+                            <Text text="{Documentos>Dmshb}" />
+                            <Text text="{Documentos>Hwaer}" />
+                            <Text text="{Documentos>Wrshb}" />
+                            <Text text="{Documentos>Waers}" />
+                            <Text text="{Documentos>Lockp}" />
+                            <Text text="{Documentos>Xblnr}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+        <buttons>
+            <Button id="btnAceptar" type="Accept" text="Agregar documentos" press="onSeleccionarDocs" />
+            <Button id="btnCerrarDialog" text="Cerrar" press="onCloseDialog" />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

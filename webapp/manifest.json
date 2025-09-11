@@ -1,0 +1,211 @@
+{
+    "_version": "1.17.0",
+    "sap.app": {
+        "id": "zfiflujoaprobacion",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.16.5",
+            "toolsId": "4c126f50-1190-40cb-9f20-c123f3c8a822"
+        },
+        "dataSources": {
+            "ZSERV_PPL_GETID_SRV": {
+                "uri": "/sap/opu/odata/sap/ZSERV_PPL_GETID_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/ZSERV_PPL_GETID_SRV/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "ZSERV_PPL_FLUJOID_SH_SRV": {
+                "uri": "/sap/opu/odata/sap/ZSERV_PPL_FLUJOID_SH_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/ZSERV_PPL_FLUJOID_SH_SRV/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "ZSERV_PPL_GETDOCS_PROV_SRV": {
+                "uri": "/sap/opu/odata/sap/ZSERV_PPL_GETDOCS_PROV_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/ZSERV_PPL_GETDOCS_PROV_SRV/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "ZSERV_PPL_CREAFLUJO_SRV": {
+                "uri": "/sap/opu/odata/sap/ZSERV_PPL_CREAFLUJO_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/ZSERV_PPL_CREAFLUJO_SRV/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "ZSERV_PPL_SHELP_SRV": {
+                "uri": "/sap/opu/odata/sap/ZSERV_PPL_SHELP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/ZSERV_PPL_SHELP_SRV/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": false,
+        "dependencies": {
+            "minUI5Version": "1.71.19",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "zfiflujoaprobacion.i18n.i18n"
+                }
+            },
+            "ZSERV_PPL_GETID_SRV": {
+                "dataSource": "ZSERV_PPL_GETID_SRV",
+                "preload": true,
+                "settings": {}
+            },
+            "ZSERV_PPL_FLUJOID_SH_SRV": {
+                "dataSource": "ZSERV_PPL_FLUJOID_SH_SRV",
+                "preload": true,
+                "settings": {}
+            },
+            "ZSERV_PPL_GETDOCS_PROV_SRV": {
+                "dataSource": "ZSERV_PPL_GETDOCS_PROV_SRV",
+                "preload": true,
+                "settings": {}
+            },
+            "ZSERV_PPL_CREAFLUJO_SRV": {
+                "dataSource": "ZSERV_PPL_CREAFLUJO_SRV",
+                "preload": true,
+                "settings": {}
+            },
+            "ZSERV_PPL_SHELP_SRV": {
+                "dataSource": "ZSERV_PPL_SHELP_SRV",
+                "preload": true,
+                "settings": {}
+            },
+            "Flujos": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {},
+                "preload": false
+            },
+            "Aprobadores": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {},
+                "preload": false
+            },
+            "Sociedades": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {},
+                "preload": false
+            },
+            "Acreedores": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {},
+                "preload": false
+            },
+            "Monedas": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {},
+                "preload": false
+            },
+            "Adjuntos": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {},
+                "preload": false
+            },
+            "Documentos": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {},
+                "preload": false
+            },
+            "DocumentosSeleccionados": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {},
+                "preload": false
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "zfiflujoaprobacion.view",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "clearControlAggregation": false
+            },
+            "routes": [
+                {
+                    "name": "RouteMain",
+                    "pattern": ":?query:",
+                    "target": [
+                        "TargetMain"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetMain": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "Main",
+                    "viewName": "Main"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "zfiflujoaprobacion.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        }
+    }
+}

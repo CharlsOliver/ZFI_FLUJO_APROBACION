@@ -1,0 +1,189 @@
+<mvc:View controllerName="zfiflujoaprobacion.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified">
+    <Page id="page" title="{i18n>title}">
+        <headerContent>
+            <Button icon="sap-icon://create" tooltip="{i18n>header.new}" press="onCrearRequisicion" />
+        </headerContent>
+        <content>
+            <VBox fitContainer="true">
+                <f:SimpleForm id="SimpleFormChange480_12120"
+                    editable="true"
+                    layout="ResponsiveGridLayout"
+                    title="Captura de información"
+                    labelSpanXL="4"
+                    labelSpanL="3"
+                    labelSpanM="12"
+                    labelSpanS="12"
+                    adjustLabelSpan="true"
+                    emptySpanXL="0"
+                    emptySpanL="0"
+                    emptySpanM="0"
+                    emptySpanS="0"
+                    columnsXL="2"
+                    columnsL="2"
+                    columnsM="1">
+                    <f:content>
+                        <core:Title text="Datos de Flujo" />
+                        <Label text="Requisición" />
+                        <Input id="inptReqId" value="" enabled="false">
+                            <layoutData>
+                                <l:GridData span="XL2 L6 M4 S4" />
+                            </layoutData>
+                        </Input>
+
+                        <Label text="Sociedad" />
+                        <ComboBox
+                            id="cboxSociedad"
+                            showSecondaryValues="true"
+                            items="{ path: 'Sociedades>/' }"
+                            change="onSociedadChange">
+                            <core:ListItem key="{Sociedades>Valor}" text="{Sociedades>Descripcion}" additionalText="{Sociedades>Valor}" />
+                            <layoutData>
+                                <l:GridData span="XL2 L6 M4 S4" />
+                            </layoutData>
+                        </ComboBox>
+
+                        <Label text="Flujo" />
+                        <ComboBox
+                            id="cboxFlujo"
+                            enabled="false"
+                            showSecondaryValues="true"
+                            items="{ path: 'Flujos>/' }"
+                            selectionChange="onFilterAprobadores"
+                            change="onFilterAprobadores">
+                            <core:ListItem key="{Flujos>Valor}" text="{Flujos>Descripcion}" additionalText="{Flujos>Valor}" />
+                            <layoutData>
+                                <l:GridData span="XL2 L6 M4 S4" />
+                            </layoutData>
+                        </ComboBox>
+
+                        <core:Title text="Datos para tesoreria" />
+                        <Label text="Correo electrónico" />
+                        <Input id="inptCorreo" value="">
+                            <layoutData>
+                                <l:GridData span="XL2 L6 M4 S4" />
+                            </layoutData>
+                        </Input>
+
+                        <core:Title text="Datos para Requisición" />
+                        <Label text="Abierto en fecha clave" />
+                        <DatePicker id="dpFechaClave" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy"/>
+
+                        <Label text="Cuenta origen" />
+                        <Input id="inptCuentaOrigen" value="" type="Number" />
+
+                        <Label text="Cuenta destino" />
+                        <Input id="inptCuentaDestino" value="" type="Number"/>
+
+                        <Label text="Importe" />
+                        <Input id="inptImporte" value="" enabled="false"/>
+
+                        <Label text="Moneda" />
+                        <ComboBox
+                            id="cboxMoneda"
+                            showSecondaryValues="true"
+                            items="{ path: 'Monedas>/' }">
+                            <core:ListItem key="{Monedas>Valor}" text="{Monedas>Descripcion}"
+                                additionalText="{Monedas>Valor}" />
+                        </ComboBox>
+
+                        <Label text="Concepto" />
+                        <Input id="inptConcepto" value="" />
+
+                        <Label text="Acreedor" />
+                        <ComboBox
+                            id="cboxAcreedor"
+                            showSecondaryValues="true"
+                            items="{ path: 'Acreedores>/' }">
+                            <core:ListItem key="{Acreedores>Valor}" text="{Acreedores>Descripcion}"
+                                additionalText="{Acreedores>Valor}" />
+                        </ComboBox>
+
+                        <Label text="" />
+                        <Button
+                            id="btnBuscarDocs"
+                            icon="sap-icon://search"
+                            text="{i18n>form.documentos.seleccionados}"
+                            press="onBuscarDocumentos">
+                        </Button>
+
+                        <core:Title text="Archivos adjuntos" />
+                        <Label text="" />
+                        <u:FileUploader
+                            tooltip="Seleccione un archivo para cargar."
+                            change="onChangeArchivo" />
+                        <Label text="" />
+
+                        <VBox class="scrollListBox">
+                            <List
+                                headerText="Archivos cargados"
+                                items="{path: 'Adjuntos>/'}"
+                                mode="Delete"
+                                delete="onEliminarArchivo">
+                                <CustomListItem>
+                                    <HBox>
+                                        <core:Icon size="2rem" src="sap-icon://attachment-photo"
+                                            class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />
+                                        <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                            <Link text="{Adjuntos>File_name}" target="{Adjuntos>ProductPicUrl}" press="handlePress" />
+                                        </VBox>
+                                    </HBox>
+                                </CustomListItem>
+                            </List>
+                        </VBox>                        
+
+                    </f:content>
+                </f:SimpleForm>
+
+                <Table
+                    id="tblPropuestas"
+                    fixedLayout="false"
+                    sticky="ColumnHeaders"
+                    items="{Aprobadores>/}">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <content>
+                                <Title level="H2" text="Aprobadores" />
+                            </content>
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column width="20%">
+                            <Text text="Usuario" />
+                        </Column>
+                        <Column width="40%">
+                            <Text text="Nombre" />
+                        </Column>
+                        <Column width="40%">
+                            <Text text="Correo electrónico" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{Aprobadores>Usuario}" />
+                                <Text text="{Aprobadores>Ename}" />
+                                <Text text="{Aprobadores>Email}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </content>
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button type="Accept" text="{i18n>toolbar.footer.accept}" press="onIniciarFlujo">
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>
