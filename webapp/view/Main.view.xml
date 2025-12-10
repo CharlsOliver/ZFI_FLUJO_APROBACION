@@ -84,9 +84,6 @@
                     columnsM="1">
                     <f:content>
                         <core:Title text="Datos para Requisición" />
-                        <Label text="Abierto en fecha clave" />
-                        <DatePicker id="dpFechaClave" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy"/>
-
                         <Label text="Importe" />
                         <Input id="inptImporte" value="" type="Number"/>
 

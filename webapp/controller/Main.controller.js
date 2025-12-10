@@ -51,7 +51,6 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
             this.inptCorreo = this.getView().byId("inptCorreo");
             this.cboxFlujo = this.getView().byId("cboxFlujo");
             this.cboxSociedad = this.getView().byId("cboxSociedad");
-            this.dpFechaClave = this.getView().byId("dpFechaClave");
             this.cboxAcreedor = this.getView().byId("cboxAcreedor");
             this.cboxMoneda = this.getView().byId("cboxMoneda");
             this.inptImporte = this.getView().byId("inptImporte");
@@ -179,15 +178,11 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
             const sociedad = this.cboxSociedad.getSelectedKey();
             const acreedor = this.cboxAcreedor.getSelectedKey();
             const moneda = this.cboxMoneda.getSelectedKey();
-            const fecha = this.dpFechaClave.getValue();
             if(sociedad === null || sociedad === "" || sociedad === undefined) {
                 MessageToast.show("Seleccione una sociedad.");
                 return
             } else if (acreedor === null || acreedor === "" || acreedor === undefined){
                 MessageToast.show("Seleccione un acreedor.");
-                return
-            } else if (fecha === null || fecha === "" || fecha === undefined){
-                MessageToast.show("Seleccione una fecha clave.");
                 return
             } else if (moneda === null || moneda === "" || moneda === undefined){
                 MessageToast.show("Seleccione una moneda.");
@@ -202,15 +197,9 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
                         this._oDialogDocumentos = oDialog;
                         this.getView().addDependent(oDialog);
                         oDialog.open();
-                        this.onLoadDocumentos(sociedad, fecha, acreedor, moneda).then(() => {
-                            this.preseleccionarDocumentos();
-                        });
                     }.bind(this));
                 } else {
                     this._oDialogDocumentos.open();
-                    this.onLoadDocumentos(sociedad, fecha, acreedor, moneda).then(() => {
-                        this.preseleccionarDocumentos();
-                    });
                 }
             }
         },
@@ -307,7 +296,6 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
             const sociedad = this.cboxSociedad.getSelectedKey();
             const acreedor = this.cboxAcreedor.getSelectedKey();
             const moneda = this.cboxMoneda.getSelectedKey();
-            const fecha = this.dpFechaClave.getValue();
             const concepto = this.inptConcepto.getValue();
             const correo = this.inptCorreo.getValue();
             const importe = this.inptImporte.getValue().replace("$", "").replace(",", "");
@@ -342,11 +330,6 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
                 oView.setBusy(false);
                 return;
             } else if
-            (fecha === "" || fecha === null || fecha === undefined) {
-                MessageToast.show("Seleccione una fecha.")
-                oView.setBusy(false);
-                return;
-            } else if
             (concepto === "" || concepto === null || concepto === undefined) {
                 MessageToast.show("Ingrese un concepto.")
                 oView.setBusy(false);
@@ -375,7 +358,6 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
                     "Sociedad" : sociedad,
                     "Proveedor" : acreedor,
                     "Moneda" : moneda,
-                    "Fecha" : fecha,
                     "Concepto" : concepto,
                     "Correo" : correo,
                     "Importe": importe,
@@ -449,7 +431,6 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
             this.inptReqId.setValue(null);
             this.cboxFlujo.setSelectedKey(null);
             this.cboxSociedad.setSelectedKey(null);
-            this.dpFechaClave.setValue(null);
             this.txtAObservaciones.setValue(null);
             this.rbgMetodoPago.setSelectedIndex(0);
             this.inptImporte.setValue(null);
