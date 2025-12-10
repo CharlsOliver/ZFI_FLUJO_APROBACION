@@ -20,6 +20,7 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
             this.ZSERV_PPL_GETDOCS_PROV_SRV = this.getOwnerComponent().getModel("ZSERV_PPL_GETDOCS_PROV_SRV");
             this.ZSERV_PPL_CREAFLUJO_SRV = this.getOwnerComponent().getModel("ZSERV_PPL_CREAFLUJO_SRV");
             this.ZSERV_PPL_SHELP_SRV = this.getOwnerComponent().getModel("ZSERV_PPL_SHELP_SRV");
+            this.ZSERV_PPL_PRINT_SRV = this.getOwnerComponent().getModel("ZSERV_PPL_PRINT_SRV");
             this.oFlujos = this.getOwnerComponent().getModel("Flujos");
             this.oAprobadores = this.getOwnerComponent().getModel("Aprobadores");
             this.oSociedades = this.getOwnerComponent().getModel("Sociedades");
@@ -33,7 +34,7 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
             if (sap.ushell && sap.ushell.Container) {
                 this.oUser = sap.ushell.Container.getUser();
                 this.sUserId = this.oUser.getId();
-                //this.sUserId = "RREYES";
+                this.sUserId = "RREYES";
             } else {
                 this.sUserId = "RREYES";
             }
@@ -45,8 +46,7 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
             this.oAdjuntos.setData([]);
             this.oDocumentosSeleccionados.setData([]);
             this.inptReqId = this.getView().byId("inptReqId");
-            this.inptCuentaOrigen = this.getView().byId("inptCuentaOrigen");
-            this.inptCuentaDestino = this.getView().byId("inptCuentaDestino");
+            this.txtAObservaciones = this.getView().byId("txtAObservaciones");
             this.inptConcepto = this.getView().byId("inptConcepto");
             this.inptCorreo = this.getView().byId("inptCorreo");
             this.cboxFlujo = this.getView().byId("cboxFlujo");
@@ -55,8 +55,7 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
             this.cboxAcreedor = this.getView().byId("cboxAcreedor");
             this.cboxMoneda = this.getView().byId("cboxMoneda");
             this.inptImporte = this.getView().byId("inptImporte");
-            this.btnBuscarDocs = this.getView().byId("btnBuscarDocs");
-            this.btnBuscarDocs.setText(this.oBundle.getText("form.documentos.seleccionados", [0]))
+            this.rbgMetodoPago = this.getView().byId("rbgMetodoPago");
 			this.onCrearRequisicion();
             this.onCargarDropdowns();
 		},
@@ -278,8 +277,6 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
                 MessageToast.show("No se seleccionó ningún documento.");
             }
 
-            this.btnBuscarDocs.setText(this.oBundle.getText("form.documentos.seleccionados", [aNuevosSeleccionados.length]))
-
             this._oDialogDocumentos.close();
         },
 
@@ -311,13 +308,13 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
             const acreedor = this.cboxAcreedor.getSelectedKey();
             const moneda = this.cboxMoneda.getSelectedKey();
             const fecha = this.dpFechaClave.getValue();
-            const cuenta_origen = this.inptCuentaOrigen.getValue();
-            const cuenta_destino = this.inptCuentaDestino.getValue();
             const concepto = this.inptConcepto.getValue();
             const correo = this.inptCorreo.getValue();
             const importe = this.inptImporte.getValue().replace("$", "").replace(",", "");
             const documentos = this.oDocumentosSeleccionados.getData();
             const adjuntos = this.oAdjuntos.getData();
+            const comentarios = this.txtAObservaciones.getValue();
+            const metodoPago = this.rbgMetodoPago.getSelectedIndex() + 1;
 
             if (requisicion === "" || requisicion === null || requisicion === undefined) {
                 MessageToast.show("Genere un número requisicion.")
@@ -350,16 +347,6 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
                 oView.setBusy(false);
                 return;
             } else if
-            (cuenta_origen === "" || cuenta_origen === null || cuenta_origen === undefined) {
-                MessageToast.show("Ingrese una cuenta de origen.")
-                oView.setBusy(false);
-                return;
-            } else if
-            (cuenta_destino === "" || cuenta_destino === null || cuenta_destino === undefined) {
-                MessageToast.show("Ingrese una cuenta de destino.")
-                oView.setBusy(false);
-                return;
-            } else if
             (concepto === "" || concepto === null || concepto === undefined) {
                 MessageToast.show("Ingrese un concepto.")
                 oView.setBusy(false);
@@ -369,12 +356,16 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
                 MessageToast.show("Ingrese un correo electrónico para tesoreria.")
                 oView.setBusy(false);
                 return;
-            } else if (documentos.length === 0){
-                MessageToast.show("Selecciones al menos un documento de acreedor.")
-                oView.setBusy(false);
-                return;
             } else if (importe === "" || importe === null || importe === undefined) {
                 MessageToast.show("Ingrese un importe.")
+                oView.setBusy(false);
+                return;
+            } else if (comentarios === "" || comentarios === null || comentarios === undefined) {
+                MessageToast.show("Ingrese comentarios.")
+                oView.setBusy(false);
+                return;
+            }  else if (metodoPago === "" || metodoPago === null || metodoPago === undefined) {
+                MessageToast.show("Seleccione un método de pago.")
                 oView.setBusy(false);
                 return;
             } else {
@@ -385,11 +376,11 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
                     "Proveedor" : acreedor,
                     "Moneda" : moneda,
                     "Fecha" : fecha,
-                    "Cta_origen" : cuenta_origen,
-                    "Cta_destino" : cuenta_destino,
                     "Concepto" : concepto,
                     "Correo" : correo,
                     "Importe": importe,
+                    "Metodop": metodoPago.toString(),
+                    "Observaciones": comentarios,
                     "HeaderDocsNav": documentos.map(documento => ({
                         Xblnr: documento.Xblnr,
                         Belnr: documento.Belnr,
@@ -432,7 +423,6 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
             const value = oEvent.getSource().getSelectedKey();
             this.cboxFlujo.setSelectedKey(oSelectedItem["Id_flow"]);
             this.onFilterAprobadores(oSelectedItem["Id_flow"])
-            console.log(oSelectedItem["Id_flow"])
 
             const aFilter = [
                 new Filter("Campo", FilterOperator.EQ, '3'),
@@ -460,17 +450,56 @@ function (Controller, MessageToast, Fragment, Filter, FilterOperator, formatter)
             this.cboxFlujo.setSelectedKey(null);
             this.cboxSociedad.setSelectedKey(null);
             this.dpFechaClave.setValue(null);
-            this.inptCuentaOrigen.setValue(null);
-            this.inptCuentaDestino.setValue(null);
+            this.txtAObservaciones.setValue(null);
+            this.rbgMetodoPago.setSelectedIndex(0);
             this.inptImporte.setValue(null);
             this.cboxMoneda.setSelectedKey(null);
             this.inptConcepto.setValue(null);
             this.cboxAcreedor.setSelectedKey(null);
             this.inptCorreo.setValue(null);
-            this.btnBuscarDocs.setText(this.oBundle.getText("form.documentos.seleccionados", [0]))
             this.oAdjuntos.setData([]);
             this.oDocumentos.setData([]);
             this.oAprobadores.setData([]);
+        },
+
+        onImprimirRequisicion: function() {
+            const requisicion = this.inptReqId.getValue();
+            const flujo = this.cboxFlujo.getSelectedKey();
+            const sociedad = this.cboxSociedad.getSelectedKey();
+            const acreedor = this.cboxAcreedor.getSelectedKey();
+            const moneda = this.cboxMoneda.getSelectedKey();
+            const concepto = this.inptConcepto.getValue();
+            const correo = this.inptCorreo.getValue();
+            const importe = this.inptImporte.getValue().replace("$", "").replace(",", "");
+            const comentarios = this.txtAObservaciones.getValue();
+            const metodoPago = this.rbgMetodoPago.getSelectedIndex() + 1;
+
+            let body = {
+                "FlujoId" : flujo,
+                "ReqId" : requisicion,
+                "Sociedad" : sociedad,
+                "Proveedor" : acreedor,
+                "Moneda" : moneda,
+                "Concepto" : concepto,
+                "Correo" : correo,
+                "Importe": importe,
+                "MetodoP": metodoPago.toString(),
+                "Observaciones": comentarios
+            }
+
+            this.ZSERV_PPL_PRINT_SRV.create("/DataprintSet", body, {
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                success: function (response) {
+                    console.log(response)
+                    MessageToast.show("Se envió a imprimir la requisición.");
+                },
+                error: function (error) {
+                    console.log(error)
+                    MessageToast.show("Ocurrió un error al imprimir.");
+                }
+            });
         }
     });
 });
