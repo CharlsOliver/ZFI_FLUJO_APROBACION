@@ -1,0 +1,21 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <SelectDialog 
+        id="vhAcreedor"
+        title="Seleccione un Acreedor"
+        noDataText="No hay acreedores"
+        search=".onAcreedorSearch"
+        confirm=".onAcreedorConfirm"
+        cancel=".onAcreedorCancel"
+        growing="true"
+        growingThreshold="20"
+        rememberSelections="true"
+        items="{
+            path: 'ZSERV_PPL_SHELP_SRV>/ProvsSet'
+        }">
+
+        <StandardListItem 
+            title="{ZSERV_PPL_SHELP_SRV>Valor}" 
+            description="{ZSERV_PPL_SHELP_SRV>Descripcion}"/>
+    </SelectDialog>
+</core:FragmentDefinition>

@@ -100,13 +100,13 @@
                         <Input id="inptConcepto" value="" />
 
                         <Label text="Acreedor" />
-                        <ComboBox
+                        <Input
                             id="cboxAcreedor"
-                            showSecondaryValues="true"
-                            items="{ path: 'Acreedores>/' }">
-                            <core:ListItem key="{Acreedores>Valor}" text="{Acreedores>Descripcion}"
-                                additionalText="{Acreedores>Valor}" />
-                        </ComboBox>
+                            type="Text"
+                            showValueHelp="true"
+                            valueHelpOnly="true"
+                            valueHelpRequest=".onAcreedoresHelpRequest">
+                        </Input>
 
                         <core:Title text="Observaciones / Justificación" />
                         <TextArea

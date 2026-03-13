@@ -69,6 +69,15 @@
                     "localUri": "localService/ZSERV_PPL_PRINT_SRV/metadata.xml",
                     "odataVersion": "2.0"
                 }
+            },
+            "ZSERV_PPL_CHECKUSR_SRV": {
+                "uri": "/sap/opu/odata/sap/ZSERV_PPL_CHECKUSR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/ZSERV_PPL_CHECKUSR_SRV/metadata.xml",
+                    "odataVersion": "2.0"
+                }
             }
         }
     },
@@ -135,6 +144,11 @@
             },
             "ZSERV_PPL_PRINT_SRV": {
                 "dataSource": "ZSERV_PPL_PRINT_SRV",
+                "preload": true,
+                "settings": {}
+            },
+            "ZSERV_PPL_CHECKUSR_SRV": {
+                "dataSource": "ZSERV_PPL_CHECKUSR_SRV",
                 "preload": true,
                 "settings": {}
             },
