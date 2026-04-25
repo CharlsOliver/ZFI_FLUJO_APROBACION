@@ -53,7 +53,7 @@ sap.ui.define([
                 if (sap.ushell && sap.ushell.Container) {
                     this.oUser = sap.ushell.Container.getUser();
                     this.sUserId = this.oUser.getId();
-                    this.sUserId = "RREYES";
+                    //this.sUserId = "RREYES";
                 } else {
                     this.sUserId = "RREYES";
                 }

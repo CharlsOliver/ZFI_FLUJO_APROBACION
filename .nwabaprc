@@ -4,7 +4,7 @@
 	"conn_server": "http://svgwdap0.grupobafar.com:8000/",
 	"conn_client": "100",
 	"conn_user": "RUVERA",
-	"conn_password": "Diciembre.2025",
+	"conn_password": "Mayo.2026",
 	"abap_package": "ZBAFAR_FIORI",
 	"abap_bsp": "ZFI_FLUJO_APROV",
 	"abap_bsp_text": "Aplicación para creación de flujos de aprobación.",
