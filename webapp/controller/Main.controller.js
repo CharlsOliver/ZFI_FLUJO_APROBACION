@@ -53,7 +53,7 @@ sap.ui.define([
                 if (sap.ushell && sap.ushell.Container) {
                     this.oUser = sap.ushell.Container.getUser();
                     this.sUserId = this.oUser.getId();
-                    //this.sUserId = "RREYES";
+                    this.sUserId = "RREYES";
                 } else {
                     this.sUserId = "RREYES";
                 }
@@ -116,25 +116,44 @@ sap.ui.define([
 
                 Promise.all(aPromesas).then((aResultados) => {
                     const aAllResponse = aResultados.flat();
-                    that.oFlujos.setData(aAllResponse[0]["ValNav"]["results"]);
+                    const aSociedadesOriginales = aAllResponse[1]["ValNav"]["results"];
+                    that.aSociedadesFlujos = aSociedadesOriginales;
+                    const aSociedadesUnicas = Array.from(
+                        new Map(
+                            aSociedadesOriginales.map(oSociedad => [
+                                oSociedad.Valor,
+                                oSociedad
+                            ])
+                        ).values()
+                    );
+
+                    that.aFlujosOriginales = aAllResponse[0]["ValNav"]["results"];
+                    that.oFlujos.setData(that.aFlujosOriginales);
+                    
                     that.aAprobadores = aAllResponse[0]["AprobNav"]["results"];
-                    that.oSociedades.setData(aAllResponse[1]["ValNav"]["results"]);
+                    that.oSociedades.setData(aSociedadesUnicas);
                     that.oMonedas.setData(aAllResponse[3]["ValNav"]["results"]);
                 }).catch((err) => {
                     console.error("Error al consultar el OData:", err);
                 });
             },
 
-            onFilterAprobadores: function (value) {
+            onFilterAprobadores: function (oEvent) {
+
+                const value = oEvent.getSource().getSelectedKey();
+
+                console.log("Flujo seleccionado:", value);
+
                 if (value) {
-                    var aAprobadoresFiltrados = [];
-                    if (value !== "" && value !== null && value !== undefined) {
-                        aAprobadoresFiltrados = this.aAprobadores.filter(item => item.Id_flow === value);
-                    }
+                    const aAprobadoresFiltrados = this.aAprobadores.filter(
+                        item => item.Id_flow === value
+                    );
+
                     this.oAprobadores.setData(aAprobadoresFiltrados);
                 } else {
                     this.oAprobadores.setData([]);
                 }
+
             },
 
             onChangeArchivo: function (oEvent) {
@@ -419,8 +438,17 @@ sap.ui.define([
                 const that = this;
                 const oSelectedItem = oEvent.getSource().getSelectedItem().getBindingContext("Sociedades").getObject();
                 const value = oEvent.getSource().getSelectedKey();
-                this.cboxFlujo.setSelectedKey(oSelectedItem["Id_flow"]);
-                this.onFilterAprobadores(oSelectedItem["Id_flow"])
+                const aFlujosSociedad = this.aSociedadesFlujos.filter(
+                    oItem => oItem.Valor === value
+                );
+
+                const aFlujosFiltrados = this.aFlujosOriginales.filter(
+                    oFlujo => aFlujosSociedad.some(
+                        oRelacion => oRelacion.Id_flow === oFlujo.Valor
+                    )
+                );
+                this.oFlujos.setData(aFlujosFiltrados);
+                this.cboxFlujo.setSelectedKey("");
 
                 const aFilter = [
                     new Filter("Campo", FilterOperator.EQ, '3'),

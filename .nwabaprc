@@ -4,9 +4,9 @@
 	"conn_server": "http://svgwdap0.grupobafar.com:8000/",
 	"conn_client": "100",
 	"conn_user": "RUVERA",
-	"conn_password": "Mayo.2026",
+	"conn_password": "Septiembre.2026",
 	"abap_package": "ZBAFAR_FIORI",
 	"abap_bsp": "ZFI_FLUJO_APROV",
 	"abap_bsp_text": "Aplicación para creación de flujos de aprobación.",
-	"abap_transport": "GWDK904567"
+	"abap_transport": "GWDK905182"
 }

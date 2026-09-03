@@ -46,7 +46,7 @@
                         <Label text="Flujo" />
                         <ComboBox
                             id="cboxFlujo"
-                            enabled="false"
+                            enabled="true"
                             showSecondaryValues="true"
                             items="{ path: 'Flujos>/' }"
                             selectionChange="onFilterAprobadores"
